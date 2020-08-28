@@ -1,61 +1,61 @@
 <template>
   <span>
     <el-popconfirm
-      placement="top"
-      :title="action.message"
-      @onConfirm="onClick"
-      v-if="action.message"
+        placement="top"
+        :title="action.message"
+        @onConfirm="onClick"
+        v-if="action.message"
     >
       <el-button
-        slot="reference"
-        :type="action.type"
-        :size="action.size"
-        :plain="action.plain"
-        :round="action.round"
-        :circle="action.circle"
-        :disabled="action.disabled"
-        :icon="action.icon"
-        :autofocus="action.autofocus"
-        :loading="loading"
-        >{{ action.content }}</el-button
+          slot="reference"
+          :type="action.type"
+          :size="action.size"
+          :plain="action.plain"
+          :round="action.round"
+          :circle="action.circle"
+          :disabled="action.disabled"
+          :icon="action.icon"
+          :autofocus="action.autofocus"
+          :loading="loading"
+      >{{ action.content }}</el-button
       >
     </el-popconfirm>
     <el-tooltip :content="action.tooltip" placement="top" :disabled="!action.tooltip" v-else>
       <el-button
-        :type="action.type"
-        :size="action.size"
-        :plain="action.plain"
-        :round="action.round"
-        :circle="action.circle"
-        :disabled="action.disabled"
-        :icon="action.icon"
-        :autofocus="action.autofocus"
-        :loading="loading"
-        @click="onClick"
-        >{{ action.content }}</el-button
+          :type="action.type"
+          :size="action.size"
+          :plain="action.plain"
+          :round="action.round"
+          :circle="action.circle"
+          :disabled="action.disabled"
+          :icon="action.icon"
+          :autofocus="action.autofocus"
+          :loading="loading"
+          @click="onClick"
+      >{{ action.content }}</el-button
       >
     </el-tooltip>
     <el-dialog
-      v-if="action.dialog"
-      :title="action.dialog.title"
-      :visible.sync="dialogTableVisible"
-      :width="action.dialog.width"
-      :fullscreen="action.dialog.fullscreen"
-      :top="action.dialog.top"
-      :modal="action.dialog.modal"
-      :lock-scroll="action.dialog.lockScroll"
-      :custom-class="action.dialog.customClass"
-      :show-close="action.dialog.showClose"
-      :center="action.dialog.center"
-      :close-on-click-modal="action.dialog.closeOnClickModal"
-      :close-on-press-escape="action.dialog.closeOnPressEscape"
-      append-to-body
-      destroy-on-close
+        v-if="action.dialog"
+        :title="action.dialog.title"
+        :visible.sync="dialogTableVisible"
+        :width="action.dialog.width"
+        :fullscreen="action.dialog.fullscreen"
+        :top="action.dialog.top"
+        :modal="action.dialog.modal"
+        :lock-scroll="action.dialog.lockScroll"
+        :custom-class="action.dialog.customClass"
+        :show-close="action.dialog.showClose"
+        :center="action.dialog.center"
+        :close-on-click-modal="action.dialog.closeOnClickModal"
+        :close-on-press-escape="action.dialog.closeOnPressEscape"
+        append-to-body
+        destroy-on-close
     >
       <component
-        v-if="action.dialog.slot"
-        :is="action.dialog.slot.componentName"
-        :attrs="action.dialog.slot"
+          v-if="action.dialog.slot"
+          :is="action.dialog.slot.componentName"
+          :attrs="action.dialog.slot"
       />
     </el-dialog>
   </span>
@@ -87,6 +87,9 @@ export default {
         this.dialogTableVisible = true;
         return;
       }
+
+      this.beforeEmit()
+
       //判断操作响应类型
       switch (this.action.handler) {
         case "route":
@@ -94,6 +97,9 @@ export default {
           break;
         case "link":
           window.location.href = this.uri;
+          break;
+        case 'nlink':
+          window.open(this.uri);
           break;
         case "request":
           this.onRequest(this.uri);
@@ -105,15 +111,33 @@ export default {
     },
     onRequest(uri) {
       this.loading = true;
-      this.$http
-        .get(uri)
-        .then(res => {
-          if (res.code == 200) {
-          }
-        })
-        .finally(() => {
-          this.loading = false;
-        });
+      this.$http[this.action.requestMethod](uri)
+          .then(res => {
+            if (res.code == 200) {
+              this.successEmit()
+            }
+          })
+          .finally(() => {
+            this.loading = false;
+            this.$bus.emit('tableReload')
+            this.afterEmit()
+          });
+    },
+
+    beforeEmit() {
+      this.action.beforeEmit.map(item => {
+        this.$bus.emit(item.eventName, item.eventData);
+      });
+    },
+    afterEmit() {
+      this.action.afterEmit.map(item => {
+        this.$bus.emit(item.eventName, item.eventData);
+      });
+    },
+    successEmit() {
+      this.action.successEmit.map(item => {
+        this.$bus.emit(item.eventName, item.eventData);
+      });
     }
   },
   computed: {

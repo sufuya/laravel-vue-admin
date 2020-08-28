@@ -36,7 +36,7 @@ class Tag extends GridComponent
      */
     public function type($type = null, $random = true)
     {
-        $type = empty($type) ? ['success', 'info', 'warning', 'danger'] : $type;
+        $type = empty($type) ? ['', 'success', 'info', 'warning', 'danger'] : $type;
 
         $this->type = [
             'data' => $type,

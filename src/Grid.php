@@ -17,6 +17,7 @@ use SmallRuralDog\Admin\Grid\Concerns\HasFilter;
 use SmallRuralDog\Admin\Grid\Concerns\HasGridAttributes;
 use SmallRuralDog\Admin\Grid\Concerns\HasPageAttributes;
 use SmallRuralDog\Admin\Grid\Concerns\HasQuickSearch;
+use SmallRuralDog\Admin\Grid\Concerns\HasTabFilter;
 use SmallRuralDog\Admin\Grid\Filter;
 use SmallRuralDog\Admin\Grid\Model;
 use SmallRuralDog\Admin\Grid\Table\Attributes;
@@ -26,7 +27,7 @@ use SmallRuralDog\Admin\Layout\Content;
 
 class Grid extends Component
 {
-    use HasGridAttributes, HasPageAttributes, HasDefaultSort, HasQuickSearch, HasFilter;
+    use HasGridAttributes, HasPageAttributes, HasDefaultSort, HasQuickSearch, HasFilter, HasTabFilter;
 
     /**
      * 组件名称
@@ -167,9 +168,6 @@ class Grid extends Component
         $this->appendFields = $appendFields;
         return $this;
     }
-
-
-
 
 
     /**

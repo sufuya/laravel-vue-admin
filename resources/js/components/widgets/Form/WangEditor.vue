@@ -3,9 +3,9 @@
     <div ref="toolbar" class="toolbar"></div>
     <div v-if="attrs.component">
       <component
-        :is="attrs.component.componentName"
-        :attrs="attrs.component"
-        :editor.sync="editor"
+          :is="attrs.component.componentName"
+          :attrs="attrs.component"
+          :editor.sync="editor"
       />
     </div>
     <div ref="editor" :style="attrs.style" :class="attrs.className"></div>
@@ -13,7 +13,8 @@
 </template>
 <script>
 import E from "wangeditor";
-import { FormItemComponent } from "@/mixins.js";
+import {FormItemComponent} from "@/mixins.js";
+
 export default {
   mixins: [FormItemComponent],
   data() {
@@ -58,17 +59,25 @@ export default {
     this.$bus.on("EditDataLoadingCompleted", () => {
       this.editor && this.editor.txt.html(this.value);
     });
+    /**
+     * 插入内容
+     */
+    this.$bus.on('EditorInsertHtml', (html => {
+      this.editor.cmd.do('insertHTML', html)
+    }))
   },
   destroyed() {
     try {
       this.$bus.off("EditDataLoadingCompleted");
-    } catch (e) {}
+    } catch (e) {
+    }
   }
 };
 </script>
 <style lang="scss" scoped>
 .wangeditor-main {
   border: 1px solid #dcdcdc;
+
   .toolbar {
     background: #f7f7f7;
   }

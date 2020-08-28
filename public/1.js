@@ -75,6 +75,13 @@ __webpack_require__.r(__webpack_exports__);
     this.$bus.on("EditDataLoadingCompleted", function () {
       _this.editor && _this.editor.txt.html(_this.value);
     });
+    /**
+     * 插入内容
+     */
+
+    this.$bus.on('EditorInsertHtml', function (html) {
+      _this.editor.cmd["do"]('insertHTML', html);
+    });
   },
   destroyed: function destroyed() {
     try {
