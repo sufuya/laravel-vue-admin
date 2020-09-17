@@ -110,6 +110,7 @@ export default {
       }
     },
     onRequest(uri) {
+      this.beforeEmit()
       this.loading = true;
       this.$http[this.action.requestMethod](uri)
           .then(res => {

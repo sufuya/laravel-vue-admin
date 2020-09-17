@@ -2484,6 +2484,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -2525,7 +2529,9 @@ __webpack_require__.r(__webpack_exports__);
     this.isEdit && this.getEditData();
     this.$bus.on("resetFormData", function () {
       _this2.formData = _this2._.cloneDeep(_this2.attrs.defaultValues);
-    });
+    }); // 打开时更新页面
+
+    this.$bus.emit('pageReload');
   },
   destroyed: function destroyed() {
     this.formData = this._.cloneDeep(this.attrs.defaultValues); //取消监听
@@ -3503,6 +3509,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -3612,6 +3623,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     onFilterSubmit: function onFilterSubmit() {
       this.getData();
     },
+    // 导出excel
+    onExportExcel: function onExportExcel() {
+      console.log('onExportExcel');
+      this.$http.post(this.attrs.filter.exportUri, {
+        params: _objectSpread(_objectSpread({}, this.filterFormData), this.$route.query)
+      }).then(function (res) {
+        if (res.code == 200) {
+          window.open(res.data.url);
+        }
+      });
+    },
     //表单还原
     onFilterReset: function onFilterReset() {
       this.filterFormData = this._.cloneDeep(this.attrs.filter.filterFormData);
@@ -3716,6 +3738,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     onPageCurrentChange: function onPageCurrentChange(page) {
       this.page = page;
       this.getData();
+    },
+    // 对象转为uri
+    queryParams: function queryParams(obj) {
+      var prefix = '?';
     }
   },
   computed: {
@@ -4423,6 +4449,7 @@ __webpack_require__.r(__webpack_exports__);
     onRequest: function onRequest(uri) {
       var _this2 = this;
 
+      this.beforeEmit();
       this.loading = true;
       this.$http[this.action.requestMethod](uri).then(function (res) {
         if (res.code == 200) {
@@ -32328,7 +32355,7 @@ var render = function() {
                                               _vm._s(
                                                 _vm.attrs.actions.cancelButton
                                                   .content
-                                              )
+                                              ) + "\n              "
                                             )
                                           ]
                                         : _vm._e()
@@ -32382,7 +32409,7 @@ var render = function() {
                                               _vm._s(
                                                 _vm.attrs.actions.submitButton
                                                   .content
-                                              )
+                                              ) + "\n              "
                                             )
                                           ]
                                         : _vm._e()
@@ -33002,7 +33029,25 @@ var render = function() {
                                     "el-button",
                                     { on: { click: _vm.onFilterReset } },
                                     [_vm._v("重置")]
-                                  )
+                                  ),
+                                  _vm._v(" "),
+                                  _vm.attrs.filter.canExport
+                                    ? _c(
+                                        "el-button",
+                                        {
+                                          attrs: {
+                                            type: "success",
+                                            icon: "el-icon-download"
+                                          },
+                                          on: { click: _vm.onExportExcel }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n              导出Excel\n            "
+                                          )
+                                        ]
+                                      )
+                                    : _vm._e()
                                 ],
                                 1
                               )
@@ -33103,7 +33148,7 @@ var render = function() {
                                       on: { click: _vm.getData },
                                       slot: "append"
                                     },
-                                    [_vm._v("搜索")]
+                                    [_vm._v("搜索\n              ")]
                                   )
                                 ],
                                 1
@@ -33301,7 +33346,7 @@ var render = function() {
                   _vm._v(" "),
                   _vm.attrs.tree
                     ? _c("el-table-column", {
-                        attrs: { align: "center", width: "50" }
+                        attrs: { align: "center", width: _vm.attrs.treeWidth }
                       })
                     : _vm._e(),
                   _vm._v(" "),
@@ -35294,7 +35339,7 @@ var render = function() {
     class: _vm.attrs.className,
     style: _vm.attrs.style,
     attrs: {
-      value: _vm.value,
+      value: Number(_vm.value),
       min: _vm.attrs.min,
       max: _vm.attrs.max,
       step: _vm.attrs.step,

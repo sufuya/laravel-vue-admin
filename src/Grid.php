@@ -58,6 +58,7 @@ class Grid extends Component
      * @var bool
      */
     protected $tree = false;
+    protected $treeWidth = 50;
     /**
      * 表格数据来源
      * @var string
@@ -169,6 +170,16 @@ class Grid extends Component
         return $this;
     }
 
+    /**
+     * 树形控件的宽度
+     * @param int $width
+     * @return $this
+     */
+    public function treeWidth($width = 50)
+    {
+        $this->treeWidth = $width;
+        return $this;
+    }
 
     /**
      * @return bool

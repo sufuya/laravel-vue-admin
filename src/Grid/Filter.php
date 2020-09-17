@@ -44,6 +44,10 @@ class Filter
 
     public $expand = false;
 
+    protected $canExport = false;
+
+    protected $exportUri;
+
     /**
      * @var Collection
      */
@@ -75,6 +79,7 @@ class Filter
 
         $this->scopes = new Collection();
     }
+
 
     public function conditions()
     {
@@ -136,6 +141,28 @@ class Filter
         return $this;
     }
 
+    /**
+     * 可以导出
+     * @param bool $export
+     * @return $this
+     */
+    public function export($export = true)
+    {
+        $this->canExport = $export;
+        return $this;
+    }
+
+    /**
+     * 导出按钮的地址
+     * @param null $uri
+     * @return $this
+     */
+    public function exportUri($uri = null)
+    {
+        $this->exportUri = $uri;
+        return $this;
+    }
+
     public function execute($toArray = true)
     {
         if (method_exists($this->model->eloquent(), 'paginate')) {
@@ -190,6 +217,8 @@ class Filter
         }
 
         return [
+            'canExport' => $this->canExport,
+            'exportUri' => $this->exportUri,
             'filters' => $this->filters,
             'filterFormData' => $this->filterFormData,
         ];
