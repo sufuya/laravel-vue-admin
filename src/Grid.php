@@ -454,6 +454,7 @@ class Grid extends Component
             $viewData['dialogFormWidth'] = $this->dialogFormWidth;
             $viewData['dialogTitle'] = $this->dialogTitle;
             $viewData['ref'] = $this->getRef();
+            $viewData['treeWidth'] = $this->treeWidth;
             return $viewData;
         }
     }
