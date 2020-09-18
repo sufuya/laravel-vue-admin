@@ -2018,6 +2018,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -2091,6 +2100,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     collapsedSide: function collapsedSide() {
       this.isCollapsed = !this.isCollapsed;
+    },
+    goPersonal: function goPersonal() {
+      this.router.push('/personal');
     },
     onLogout: function onLogout() {
       var _this2 = this;
@@ -31384,7 +31396,7 @@ var render = function() {
                             _c(
                               "el-breadcrumb-item",
                               { attrs: { to: { path: "/" } } },
-                              [_vm._v("首页")]
+                              [_vm._v("首页\n              ")]
                             ),
                             _vm._v(" "),
                             _vm._l(_vm.pageData.menuList, function(menu) {
@@ -31393,7 +31405,12 @@ var render = function() {
                                   ? _c(
                                       "el-breadcrumb-item",
                                       { key: menu.route },
-                                      [_vm._v(_vm._s(menu.title))]
+                                      [
+                                        _vm._v(
+                                          _vm._s(menu.title) +
+                                            "\n                "
+                                        )
+                                      ]
                                     )
                                   : _vm._e()
                               ]
@@ -31474,6 +31491,22 @@ var render = function() {
                                 [
                                   _c(
                                     "a",
+                                    { on: { click: _vm.goPersonal } },
+                                    [
+                                      _c("el-dropdown-item", [
+                                        _c("i", {
+                                          staticClass: "el-icon-user",
+                                          attrs: { size: "18" }
+                                        }),
+                                        _vm._v(" "),
+                                        _c("span", [_vm._v("个人资料")])
+                                      ])
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "a",
                                     { on: { click: _vm.onLogout } },
                                     [
                                       _c("el-dropdown-item", [
@@ -31544,7 +31577,7 @@ var render = function() {
                               underline: false
                             }
                           },
-                          [_vm._v(_vm._s(item.title))]
+                          [_vm._v(_vm._s(item.title) + "\n            ")]
                         )
                       }),
                       1

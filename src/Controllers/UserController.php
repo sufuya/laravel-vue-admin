@@ -2,12 +2,14 @@
 
 namespace SmallRuralDog\Admin\Controllers;
 
+use http\Env\Request;
 use SmallRuralDog\Admin\Components\Attrs\SelectOption;
 use SmallRuralDog\Admin\Components\Form\Input;
 use SmallRuralDog\Admin\Components\Form\Select;
 use SmallRuralDog\Admin\Components\Form\Upload;
 use SmallRuralDog\Admin\Components\Grid\Avatar;
 use SmallRuralDog\Admin\Components\Grid\Tag;
+use SmallRuralDog\Admin\Facades\Admin;
 use SmallRuralDog\Admin\Form;
 use SmallRuralDog\Admin\Grid;
 
@@ -85,5 +87,49 @@ class UserController extends AdminController
             }
         });
         return $form;
+    }
+
+    /**
+     * 个人资料编辑表单
+     * @return Form
+     */
+    public function personal()
+    {
+        $userModel = config('admin.database.users_model');
+        $userTable = config('admin.database.users_table');
+        $connection = config('admin.database.connection');
+
+        $form = new Form(new $userModel);
+        $form->edit(Admin::user()->id);
+
+
+        $form->item('username', '用户名')
+            ->serveCreationRules(['required', "unique:{$connection}.{$userTable}"])
+            ->serveUpdateRules(['required', "unique:{$connection}.{$userTable},username,{{id}}"])
+            ->component(Input::make());
+        $form->item('name', '名称')->component(Input::make()->showWordLimit()->maxlength(20));
+        $form->item('avatar', '头像')->component(Upload::make()->avatar()->path('avatar')->uniqueName());
+        $form->item('password', '密码')->serveCreationRules(['required', 'string', 'confirmed'])->serveUpdateRules(['confirmed'])->ignoreEmpty()
+            ->component(function () {
+                return Input::make()->password()->showPassword();
+            });
+        $form->item('password_confirmation', '确认密码')
+            ->copyValue('password')->ignoreEmpty()
+            ->component(function () {
+                return Input::make()->password()->showPassword();
+            });
+
+        return $form;
+    }
+
+    public function savePersonal(Request $request)
+    {
+        $data = $request->only([
+            'username',
+            'name',
+            'avatar',
+            'password',
+        ]);
+        dd($data);
     }
 }
