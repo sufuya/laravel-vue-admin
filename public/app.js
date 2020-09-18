@@ -3514,6 +3514,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -3537,6 +3538,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       loading: false,
       //是否加载
+      export_loading: false,
       sort: {},
       //排序对象
       tableData: [],
@@ -3625,13 +3627,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     // 导出excel
     onExportExcel: function onExportExcel() {
+      var _this2 = this;
+
+      this.export_loading = true;
       console.log('onExportExcel');
-      this.$http.post(this.attrs.filter.exportUri, {
-        params: _objectSpread(_objectSpread({}, this.filterFormData), this.$route.query)
+      this.$http.get(this.attrs.filter.exportUri, {
+        params: _objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({
+          get_data: true,
+          page: this.page,
+          per_page: this.pageData.pageSize
+        }, this.sort), this.q_search), this.filterFormData), this.tabsSelectdata), this.$route.query)
       }).then(function (res) {
         if (res.code == 200) {
           window.open(res.data.url);
         }
+      })["finally"](function () {
+        _this2.export_loading = false;
       });
     },
     //表单还原
@@ -3642,7 +3653,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     //获取数据
     getData: function getData() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.loading = true;
       this.$http[this.attrs.method](this.attrs.dataUrl, {
@@ -3654,52 +3665,52 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }).then(function (_ref2) {
         var data = _ref2.data;
 
-        if (!_this2.attrs.hidePage) {
-          _this2.tableData = data.data;
-          _this2.pageData.pageSize = data.per_page;
-          _this2.pageData.currentPage = data.current_page;
-          _this2.pageData.total = data.total;
-          _this2.pageData.lastPage = data.last_page;
+        if (!_this3.attrs.hidePage) {
+          _this3.tableData = data.data;
+          _this3.pageData.pageSize = data.per_page;
+          _this3.pageData.currentPage = data.current_page;
+          _this3.pageData.total = data.total;
+          _this3.pageData.lastPage = data.last_page;
 
-          _this2.$store.commit("setGridData", {
+          _this3.$store.commit("setGridData", {
             key: "sort",
-            data: _this2.sort
+            data: _this3.sort
           });
 
-          _this2.$store.commit("setGridData", {
+          _this3.$store.commit("setGridData", {
             key: "page",
-            data: _this2.page
+            data: _this3.page
           });
 
-          _this2.$store.commit("setGridData", {
+          _this3.$store.commit("setGridData", {
             key: "pageData",
-            data: _this2.pageData
+            data: _this3.pageData
           });
         } else {
-          _this2.tableData = data;
+          _this3.tableData = data;
         } //**保存 Grid状态 */
 
 
-        if (_this2.attrs.attributes.dataVuex) {
-          _this2.$store.commit("setGridData", {
+        if (_this3.attrs.attributes.dataVuex) {
+          _this3.$store.commit("setGridData", {
             key: "tableData",
-            data: _this2.tableData
+            data: _this3.tableData
           });
         }
 
-        _this2.$store.commit("setGridData", {
+        _this3.$store.commit("setGridData", {
           key: "quickSearch",
-          data: _this2.quickSearch
+          data: _this3.quickSearch
         });
 
-        _this2.$store.commit("setGridData", {
+        _this3.$store.commit("setGridData", {
           key: "filterFormData",
-          data: _this2.filterFormData
+          data: _this3.filterFormData
         });
         /** */
 
       })["finally"](function () {
-        _this2.loading = false;
+        _this3.loading = false;
       });
     },
     //当表格的排序条件发生变化的时候会触发该事件
@@ -3746,10 +3757,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: {
     keys: function keys() {
-      var _this3 = this;
+      var _this4 = this;
 
       return this.selectionRows.map(function (item) {
-        return item[_this3.attrs.keyName];
+        return item[_this4.attrs.keyName];
       }).join(",");
     },
     //当前路径
@@ -33035,6 +33046,14 @@ var render = function() {
                                     ? _c(
                                         "el-button",
                                         {
+                                          directives: [
+                                            {
+                                              name: "loading",
+                                              rawName: "v-loading",
+                                              value: _vm.export_loading,
+                                              expression: "export_loading"
+                                            }
+                                          ],
                                           attrs: {
                                             type: "success",
                                             icon: "el-icon-download"

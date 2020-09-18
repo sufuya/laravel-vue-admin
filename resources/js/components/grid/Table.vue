@@ -40,7 +40,8 @@
             <el-form-item>
               <el-button type="primary" @click="onFilterSubmit">搜索</el-button>
               <el-button @click="onFilterReset">重置</el-button>
-              <el-button v-if="attrs.filter.canExport" type="success" icon="el-icon-download" @click="onExportExcel">
+              <el-button v-if="attrs.filter.canExport" v-loading="export_loading" type="success" icon="el-icon-download"
+                         @click="onExportExcel">
                 导出Excel
               </el-button>
             </el-form-item>
@@ -269,6 +270,7 @@ export default {
   data() {
     return {
       loading: false, //是否加载
+      export_loading: false,
       sort: {}, //排序对象
       tableData: [], //表格数据
       pageData: {
@@ -363,16 +365,25 @@ export default {
     },
     // 导出excel
     onExportExcel() {
+      this.export_loading = true
       console.log('onExportExcel')
-      this.$http.post(this.attrs.filter.exportUri, {
+      this.$http.get(this.attrs.filter.exportUri, {
         params: {
+          get_data: true,
+          page: this.page,
+          per_page: this.pageData.pageSize,
+          ...this.sort,
+          ...this.q_search,
           ...this.filterFormData,
+          ...this.tabsSelectdata,
           ...this.$route.query,
         }
       }).then(res => {
         if (res.code == 200) {
           window.open(res.data.url)
         }
+      }).finally(() => {
+        this.export_loading = false
       })
     },
     //表单还原
