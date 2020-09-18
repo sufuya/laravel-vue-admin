@@ -323,7 +323,7 @@ export default {
       this.isCollapsed = !this.isCollapsed;
     },
     goPersonal() {
-      this.router.push('/personal');
+      this.$router.push('/personal');
     },
     onLogout() {
       this.$confirm("您确定退出登录当前账户吗？", "退出登陆确认").then(() => {

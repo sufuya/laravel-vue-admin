@@ -2102,7 +2102,7 @@ __webpack_require__.r(__webpack_exports__);
       this.isCollapsed = !this.isCollapsed;
     },
     goPersonal: function goPersonal() {
-      this.router.push('/personal');
+      this.$router.push('/personal');
     },
     onLogout: function onLogout() {
       var _this2 = this;
