@@ -21,8 +21,8 @@ return [
     'login_background_image' => 'https://gw.alipayobjects.com/zos/rmsportal/TVYTbAXWheQpRcWDaDMu.svg',
     //登录框默认用户
     'auto_user' => [
-        'username' => 'demo',
-        'password' => 'demo'
+        'username' => env('ADMIN_AUTO_USERNAME',''),
+        'password' => env('ADMIN_AUTO_PASSWORD',''),
     ],
     //底部菜单
     'footerLinks' => [
@@ -31,7 +31,7 @@ return [
             'title' => '官网'
         ],
         [
-            'href' => 'https://smallruraldog.github.io/laravel-vue-admin/',
+            'href' => 'https://www.yuque.com/smallruraldog/laravel-vue-admin/overview',
             'title' => '文档'
         ]
     ],
@@ -41,7 +41,7 @@ return [
     'route' => [
         'domain' => null,
         'prefix' => env('ADMIN_ROUTE_PREFIX', 'admin'),
-        'api_prefix' => env('ADMIN_ROUTE_PREFIX', 'admin-api'),
+        'api_prefix' => env('ADMIN_API_ROUTE_PREFIX', 'admin-api'),
         'namespace' => 'App\\Admin\\Controllers',
         'middleware' => ['web', 'admin'],
     ],
@@ -109,7 +109,7 @@ return [
     ],
     //操作日志
     'operation_log' => [
-        'enable' => true,
+        'enable' => env('ADMIN_OPERATION_LOG', false),
         /*
          * Only logging allowed methods in the list
          */

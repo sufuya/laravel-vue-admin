@@ -53,7 +53,7 @@ if (!function_exists('admin_api_base_path')) {
      */
     function admin_api_base_path($path = '')
     {
-        $prefix = '/' . trim(config('admin.route.prefix_api'), '/');
+        $prefix = '/' . trim(config('admin.route.api_prefix'), '/');
 
         $prefix = ($prefix == '/') ? '' : $prefix;
 
@@ -103,7 +103,7 @@ if (!function_exists('admin_api_url')) {
             return $path;
         }
         $secure = $secure ?: (config('admin.https') || config('admin.secure'));
-        return url(admin_api_base_path($path), $parameters, $secure);
+        return url($path, $parameters, $secure);
     }
 }
 
