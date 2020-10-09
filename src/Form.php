@@ -380,7 +380,7 @@ class Form extends Component
      * @param $data
      * @return string
      */
-    protected function validatorData($data)
+    public function validatorData($data)
     {
         try {
             $rules = [];

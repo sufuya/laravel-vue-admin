@@ -180,6 +180,4 @@ class Permission extends Model
             $model->roles()->detach();
         });
     }
-
-
 }

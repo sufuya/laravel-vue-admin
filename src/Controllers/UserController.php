@@ -8,6 +8,7 @@ use SmallRuralDog\Admin\Components\Form\Select;
 use SmallRuralDog\Admin\Components\Form\Upload;
 use SmallRuralDog\Admin\Components\Grid\Avatar;
 use SmallRuralDog\Admin\Components\Grid\Tag;
+use SmallRuralDog\Admin\Facades\Admin;
 use SmallRuralDog\Admin\Form;
 use SmallRuralDog\Admin\Grid;
 use SmallRuralDog\Admin\Layout\Column;
@@ -94,5 +95,63 @@ class UserController extends AdminController
             }
         });
         return $form;
+    }
+
+    /**
+     * 个人资料编辑表单
+     * @return Form
+     */
+    public function personal()
+    {
+        $userModel = config('admin.database.users_model');
+        $userTable = config('admin.database.users_table');
+        $connection = config('admin.database.connection');
+        $id = Admin::user()->id;
+
+        $form = new Form(new $userModel);
+        $form->edit($id);
+        $form->action(route('admin.save.personal', ['id' => $id]));
+
+        $form->item('username', '用户名')
+            ->component(Input::make()->disabled());
+        $form->item('name', '名称')->component(Input::make()->showWordLimit()->maxlength(20));
+        $form->item('avatar', '头像')->component(Upload::make()->avatar()->path('avatar')->uniqueName());
+        $form->item('password', '密码')->serveCreationRules(['required', 'string', 'confirmed'])->serveUpdateRules(['confirmed'])->ignoreEmpty()
+            ->serveRulesMessage([
+                'confirmed' => '两次输入的密码不一致'
+            ])
+            ->component(function () {
+                return Input::make()->password()->showPassword();
+            });
+        $form->item('password_confirmation', '确认密码')
+            ->copyValue('password')->ignoreEmpty()
+            ->component(function () {
+                return Input::make()->password()->showPassword();
+            });
+
+        $form->successRefData('pageReload', '');
+
+        return $form;
+    }
+
+    public function savePersonal()
+    {
+        $data = request()->all();
+        if ($validationMessages = $this->personal()->validatorData($data)) {
+            return Admin::responseError($validationMessages);
+        }
+
+        $userModel = config('admin.database.users_model');
+        $user = $userModel::find(Admin::user()->id);
+        $user->name = $data['name'];
+        $user->avatar = $data['avatar'];
+        if (isset($data['password']) && !empty($data['password'])) {
+            $user->password = bcrypt($data['password']);
+        }
+
+        if ($user->save()) {
+            return $this->responseMessage('编辑成功');
+        }
+        return $this->responseError('编辑失败');
     }
 }

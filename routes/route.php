@@ -4,7 +4,7 @@ use Illuminate\Routing\Router;
 use SmallRuralDog\Admin\Controllers\RootController;
 
 Route::group([
-    'domain'=>config('admin.route.domain'),
+    'domain' => config('admin.route.domain'),
     'prefix' => config('admin.route.prefix'),
     'middleware' => config('admin.route.middleware'),
 ], function (Router $router) {
@@ -19,7 +19,7 @@ Route::group([
 
 });
 Route::group([
-    'domain'=>config('admin.route.domain'),
+    'domain' => config('admin.route.domain'),
     'prefix' => config('admin.route.api_prefix'),
     'namespace' => '\SmallRuralDog\Admin\Controllers'
 ], function (Router $router) {
@@ -28,6 +28,8 @@ Route::group([
     $router->get('styles/{style}', 'StyleController@show')->name('admin.styles');
 
     $router->group(['middleware' => config('admin.route.middleware')], function (Router $router) {
+        $router->get('personal', 'UserController@personal')->name('admin.personal');
+        $router->put('personal', 'UserController@savePersonal')->name('admin.save.personal');
         $router->resource('auth/users', 'UserController')->names('admin.auth.users');
         $router->resource('auth/roles', 'RoleController')->names('admin.auth.roles');
         $router->resource('auth/permissions', 'PermissionController')->names('admin.auth.permissions');
