@@ -22,6 +22,11 @@
 import {FormItemComponent} from "@/mixins.js";
 
 export default {
-  mixins: [FormItemComponent]
+  mixins: [FormItemComponent],
+  updated() {
+    if (!isNaN(this.value)) {
+      this.$emit("change", Number(this.value));
+    }
+  }
 };
 </script>

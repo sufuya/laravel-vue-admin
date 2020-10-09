@@ -1992,6 +1992,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -2065,6 +2097,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     collapsedSide: function collapsedSide() {
       this.isCollapsed = !this.isCollapsed;
+    },
+    goPersonal: function goPersonal() {
+      this.$router.push('/personal');
     },
     onLogout: function onLogout() {
       var _this2 = this;
@@ -5746,7 +5781,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mixins: [_mixins_js__WEBPACK_IMPORTED_MODULE_0__["FormItemComponent"]]
+  mixins: [_mixins_js__WEBPACK_IMPORTED_MODULE_0__["FormItemComponent"]],
+  updated: function updated() {
+    if (!isNaN(this.value)) {
+      this.$emit("change", Number(this.value));
+    }
+  }
 });
 
 /***/ }),
@@ -5971,6 +6011,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         per_page: this.attrs.paginate
       }
     };
+  },
+  updated: function updated() {
+    this.options = this.attrs.options;
   },
   computed: {
     depend: function depend() {
@@ -31429,13 +31472,7 @@ var render = function() {
                                   _c(
                                     "span",
                                     { staticClass: "layout-header-user-name" },
-                                    [
-                                      _vm._v(
-                                        "\n                  " +
-                                          _vm._s(_vm.pageData.user.name) +
-                                          "\n                "
-                                      )
-                                    ]
+                                    [_vm._v(_vm._s(_vm.pageData.user.name))]
                                   )
                                 ],
                                 1
@@ -31448,6 +31485,22 @@ var render = function() {
                                   slot: "dropdown"
                                 },
                                 [
+                                  _c(
+                                    "a",
+                                    { on: { click: _vm.goPersonal } },
+                                    [
+                                      _c("el-dropdown-item", [
+                                        _c("i", {
+                                          staticClass: "el-icon-user",
+                                          attrs: { size: "18" }
+                                        }),
+                                        _vm._v(" "),
+                                        _c("span", [_vm._v("个人资料")])
+                                      ])
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
                                   _c(
                                     "a",
                                     { on: { click: _vm.onLogout } },
