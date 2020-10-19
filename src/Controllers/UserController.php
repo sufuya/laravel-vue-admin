@@ -56,6 +56,7 @@ class UserController extends AdminController
 
 
         $form->item('avatar', '头像')->component(Upload::make()->avatar()->path('avatar')->uniqueName());
+        $form->item('phone', '电话号码')->component(Input::make()->showWordLimit()->maxlength(20));
         $form->row(function (Row $row, Form $form) use ($userTable, $connection) {
             $row->column(8, $form->rowItem('username', '用户名')
                 ->serveCreationRules(['required', "unique:{$connection}.{$userTable}"])
@@ -114,6 +115,7 @@ class UserController extends AdminController
 
         $form->item('username', '用户名')
             ->component(Input::make()->disabled());
+        $form->item('phone', '电话号码')->component(Input::make()->showWordLimit()->maxlength(20));
         $form->item('name', '名称')->component(Input::make()->showWordLimit()->maxlength(20));
         $form->item('avatar', '头像')->component(Upload::make()->avatar()->path('avatar')->uniqueName());
         $form->item('password', '密码')->serveCreationRules(['required', 'string', 'confirmed'])->serveUpdateRules(['confirmed'])->ignoreEmpty()
@@ -145,6 +147,7 @@ class UserController extends AdminController
         $user = $userModel::find(Admin::user()->id);
         $user->name = $data['name'];
         $user->avatar = $data['avatar'];
+        $user->phone = $data['phone'];
         if (isset($data['password']) && !empty($data['password'])) {
             $user->password = bcrypt($data['password']);
         }
