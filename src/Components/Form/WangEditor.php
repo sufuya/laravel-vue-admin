@@ -44,6 +44,10 @@ class WangEditor extends Component
 
     protected $uploadImgHeaders;
 
+    protected $uploadVideoServer;
+    protected $uploadVideoHeaders;
+
+
     protected $component;
 
     static public function make($value = null)
@@ -96,6 +100,17 @@ class WangEditor extends Component
     }
 
     /**
+     * 配置服务器端地址
+     * @param string $uploadVideoServer
+     * @return $this
+     */
+    public function uploadVideoServer(string $uploadVideoServer)
+    {
+        $this->uploadVideoServer = $uploadVideoServer;
+        return $this;
+    }
+
+    /**
      * 自定义 fileName
      * @param mixed $uploadFileName
      * @return WangEditor
@@ -118,6 +133,17 @@ class WangEditor extends Component
     }
 
     /**
+     * 自定义 header
+     * @param mixed $uploadImgHeaders
+     * @return WangEditor
+     */
+    public function uploadVideoHeaders(array $uploadVideoHeaders)
+    {
+        $this->uploadVideoHeaders = $uploadVideoHeaders;
+        return $this;
+    }
+
+    /**
      * @param mixed $component
      * @return WangEditor
      */
@@ -126,8 +152,6 @@ class WangEditor extends Component
         $this->component = $component;
         return $this;
     }
-
-
 
 
 }

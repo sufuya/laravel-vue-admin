@@ -2,7 +2,8 @@
   <div :id="attrs.canvasId"></div>
 </template>
 <script>
-import { Line } from "@antv/g2plot";
+import {Line} from "@antv/g2plot";
+
 export default {
   props: {
     attrs: Object
@@ -20,6 +21,7 @@ export default {
     this.antv.render();
   },
   updated() {
+    console.log('line updated')
     this.antv.changeData(this.attrs.data);
   },
   destroyed() {

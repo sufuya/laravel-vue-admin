@@ -3609,13 +3609,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.export_loading = true;
       console.log('onExportExcel');
-      this.$http.post(this.attrs.filter.exportUri, {
-        params: _objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({
-          get_data: true,
-          page: this.page,
-          per_page: this.pageData.pageSize
-        }, this.sort), this.q_search), this.filterFormData), this.tabsSelectdata), this.$route.query)
-      }).then(function (res) {
+      this.$http.post(this.attrs.filter.exportUri, _objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({
+        get_data: true,
+        page: this.page,
+        per_page: this.pageData.pageSize
+      }, this.sort), this.q_search), this.filterFormData), this.tabsSelectdata), this.$route.query)).then(function (res) {
         if (res.code == 200) {
           window.open(res.data.url);
         }
@@ -33388,7 +33386,7 @@ var render = function() {
                   _vm._v(" "),
                   _vm.attrs.tree
                     ? _c("el-table-column", {
-                        attrs: { align: "center", width: "50" }
+                        attrs: { align: "center", width: "100" }
                       })
                     : _vm._e(),
                   _vm._v(" "),

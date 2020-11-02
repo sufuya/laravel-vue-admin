@@ -36,6 +36,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.antv.render();
   },
   updated: function updated() {
+    console.log('line updated');
     this.antv.changeData(this.attrs.data);
   },
   destroyed: function destroyed() {//this.antv.destory();

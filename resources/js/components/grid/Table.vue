@@ -137,7 +137,7 @@
         >
           <el-table-column v-if="attrs.attributes.selection" align="center"
                            type="selection"></el-table-column>
-          <el-table-column v-if="attrs.tree" align="center" width="50"></el-table-column>
+          <el-table-column v-if="attrs.tree" align="center" width="100"></el-table-column>
           <template v-for="column in attrs.columnAttributes">
             <el-table-column
                 :type="column.type"
@@ -348,16 +348,14 @@ export default {
       this.export_loading = true
       console.log('onExportExcel')
       this.$http.post(this.attrs.filter.exportUri, {
-        params: {
-          get_data: true,
-          page: this.page,
-          per_page: this.pageData.pageSize,
-          ...this.sort,
-          ...this.q_search,
-          ...this.filterFormData,
-          ...this.tabsSelectdata,
-          ...this.$route.query,
-        }
+        get_data: true,
+        page: this.page,
+        per_page: this.pageData.pageSize,
+        ...this.sort,
+        ...this.q_search,
+        ...this.filterFormData,
+        ...this.tabsSelectdata,
+        ...this.$route.query,
       }).then(res => {
         if (res.code == 200) {
           window.open(res.data.url)

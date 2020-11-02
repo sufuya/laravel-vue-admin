@@ -25,6 +25,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -33,12 +48,28 @@ __webpack_require__.r(__webpack_exports__);
     return {
       editor: null,
       initHtml: false,
-      defaultValue: ""
+      defaultValue: "",
+      videoUploadToken: {
+        _token: ''
+      },
+      fileList: [],
+      uploadVideoHeaders: []
     };
+  },
+  methods: {
+    handleSuccess: function handleSuccess(response, file, fileList) {
+      // el-upload上传成功后的回调， 在这里获取视频路径后添加video标签到editor标签中
+      this.fileList = [];
+      var content = "<p><video src=\"".concat(response.data[0], "\" style=\"width:100%\" controls autobuffer autoplay muted/><br></p><p>\u89C6\u9891\u63CF\u8FF0\uFF1A </p>");
+      this.editor.cmd["do"]('insertHTML', content);
+    }
   },
   mounted: function mounted() {
     var _this = this;
 
+    this.videoUploadToken = {
+      _token: Admin.token
+    };
     this.defaultValue = this._.cloneDeep(this.attrs.componentValue);
     this.editor = new wangeditor__WEBPACK_IMPORTED_MODULE_0___default.a(this.$refs.toolbar, this.$refs.editor);
     this.editor.customConfig.menus = this.attrs.menus;
@@ -104,7 +135,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, ".wangeditor-main[data-v-422d3620] {\n  border: 1px solid #dcdcdc;\n}\n.wangeditor-main .toolbar[data-v-422d3620] {\n  background: #f7f7f7;\n}", ""]);
+exports.push([module.i, ".wangeditor-main[data-v-422d3620] {\n  position: relative;\n  border: 1px solid #dcdcdc;\n}\n.wangeditor-main .toolbar[data-v-422d3620] {\n  background: #f7f7f7;\n}\n.wangeditor-main .uploadBtn[data-v-422d3620] {\n  position: absolute;\n  left: 688px;\n  top: 5px;\n  font-size: 20px;\n  cursor: pointer;\n  color: #999;\n}\n.wangeditor-main .uploadBtn[data-v-422d3620]:hover {\n  color: #000;\n}", ""]);
 
 // exports
 
@@ -156,33 +187,68 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "wangeditor-main flex-sub" }, [
-    _c("div", { ref: "toolbar", staticClass: "toolbar" }),
-    _vm._v(" "),
-    _vm.attrs.component
-      ? _c(
-          "div",
-          [
-            _c(_vm.attrs.component.componentName, {
-              tag: "component",
-              attrs: { attrs: _vm.attrs.component, editor: _vm.editor },
-              on: {
-                "update:editor": function($event) {
-                  _vm.editor = $event
+  return _c(
+    "div",
+    { staticClass: "wangeditor-main flex-sub" },
+    [
+      _vm.attrs.uploadVideoServer
+        ? _c(
+            "el-tooltip",
+            {
+              staticClass: "item",
+              attrs: { effect: "dark", content: "上传视频", placement: "top" }
+            },
+            [
+              _c(
+                "el-upload",
+                {
+                  staticClass: "uploadBtn",
+                  attrs: {
+                    action: _vm.attrs.uploadVideoServer,
+                    data: _vm.videoUploadToken,
+                    headers: _vm.attrs.uploadVideoHeaders,
+                    limit: 1,
+                    accept: ".mp4",
+                    "show-file-list": false,
+                    "on-success": _vm.handleSuccess,
+                    "file-list": _vm.fileList
+                  }
+                },
+                [_c("i", { staticClass: "el-icon-video-camera" })]
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c("div", { ref: "toolbar", staticClass: "toolbar" }),
+      _vm._v(" "),
+      _vm.attrs.component
+        ? _c(
+            "div",
+            [
+              _c(_vm.attrs.component.componentName, {
+                tag: "component",
+                attrs: { attrs: _vm.attrs.component, editor: _vm.editor },
+                on: {
+                  "update:editor": function($event) {
+                    _vm.editor = $event
+                  }
                 }
-              }
-            })
-          ],
-          1
-        )
-      : _vm._e(),
-    _vm._v(" "),
-    _c("div", {
-      ref: "editor",
-      class: _vm.attrs.className,
-      style: _vm.attrs.style
-    })
-  ])
+              })
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c("div", {
+        ref: "editor",
+        class: _vm.attrs.className,
+        style: _vm.attrs.style
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
