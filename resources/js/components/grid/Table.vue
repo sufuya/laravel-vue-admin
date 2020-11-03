@@ -333,6 +333,7 @@ export default {
     },
     //表单过滤提交
     onFilterSubmit() {
+      this.page = 1;
       this.getData();
     },
 
