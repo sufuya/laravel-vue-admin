@@ -18,6 +18,7 @@ class AdminTablesSeeder extends Seeder
         Administrator::create([
             'username' => 'admin',
             'password' => bcrypt('admin'),
+            'phone'=>'1',
             'name' => '超级管理员',
         ]);
 
