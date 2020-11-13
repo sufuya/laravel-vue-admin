@@ -2625,6 +2625,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -32370,107 +32372,114 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm.item.topComponent
-        ? _c(_vm.item.topComponent.componentName, {
-            tag: "component",
-            attrs: { attrs: _vm.item.topComponent }
-          })
-        : _vm._e(),
-      _vm._v(" "),
       _c(
-        "el-form-item",
-        {
-          attrs: {
-            prop: _vm.item.prop,
-            error: _vm.item.error,
-            "show-message": _vm.item.showMessage,
-            "inline-message": _vm.item.inlineMessage,
-            size: _vm.item.size,
-            "label-width": _vm.item.labelWidth
-          }
-        },
+        "item-if",
+        { attrs: { "form-data": _vm.formData, "form-item": _vm.item } },
         [
-          !_vm.item.hideLabel
-            ? _c("span", { attrs: { slot: "label" }, slot: "label" }, [
-                _vm._v(_vm._s(_vm.item.label))
-              ])
+          _vm.item.topComponent
+            ? _c(_vm.item.topComponent.componentName, {
+                tag: "component",
+                attrs: { attrs: _vm.item.topComponent }
+              })
             : _vm._e(),
           _vm._v(" "),
           _c(
-            "el-col",
-            { attrs: { span: _vm.item.inputWidth } },
+            "el-form-item",
+            {
+              attrs: {
+                prop: _vm.item.prop,
+                error: _vm.item.error,
+                "show-message": _vm.item.showMessage,
+                "inline-message": _vm.item.inlineMessage,
+                size: _vm.item.size,
+                "label-width": _vm.item.labelWidth
+              }
+            },
             [
-              _vm.item.relationName
-                ? _c(
-                    "ItemDisplay",
-                    _vm._b(
-                      {
-                        attrs: {
-                          "form-item": _vm.item,
-                          "form-data": _vm.formData
-                        },
-                        model: {
-                          value:
-                            _vm.formData[_vm.item.relationName][
-                              _vm.item.relationValueKey
-                            ],
-                          callback: function($$v) {
-                            _vm.$set(
-                              _vm.formData[_vm.item.relationName],
-                              _vm.item.relationValueKey,
-                              $$v
-                            )
-                          },
-                          expression:
-                            "formData[item.relationName][item.relationValueKey]"
-                        }
-                      },
-                      "ItemDisplay",
-                      _vm.$attrs,
-                      false
-                    )
-                  )
-                : _c(
-                    "ItemDisplay",
-                    _vm._b(
-                      {
-                        attrs: {
-                          "form-item": _vm.item,
-                          "form-data": _vm.formData
-                        },
-                        model: {
-                          value: _vm.formData[_vm.item.prop],
-                          callback: function($$v) {
-                            _vm.$set(_vm.formData, _vm.item.prop, $$v)
-                          },
-                          expression: "formData[item.prop]"
-                        }
-                      },
-                      "ItemDisplay",
-                      _vm.$attrs,
-                      false
-                    )
-                  ),
+              !_vm.item.hideLabel
+                ? _c("span", { attrs: { slot: "label" }, slot: "label" }, [
+                    _vm._v(_vm._s(_vm.item.label))
+                  ])
+                : _vm._e(),
               _vm._v(" "),
-              _vm.item.help
-                ? _c("div", {
-                    staticClass: "form-item-help",
-                    domProps: { innerHTML: _vm._s(_vm.item.help) }
-                  })
-                : _vm._e()
+              _c(
+                "el-col",
+                { attrs: { span: _vm.item.inputWidth } },
+                [
+                  _vm.item.relationName
+                    ? _c(
+                        "ItemDisplay",
+                        _vm._b(
+                          {
+                            attrs: {
+                              "form-item": _vm.item,
+                              "form-data": _vm.formData
+                            },
+                            model: {
+                              value:
+                                _vm.formData[_vm.item.relationName][
+                                  _vm.item.relationValueKey
+                                ],
+                              callback: function($$v) {
+                                _vm.$set(
+                                  _vm.formData[_vm.item.relationName],
+                                  _vm.item.relationValueKey,
+                                  $$v
+                                )
+                              },
+                              expression:
+                                "formData[item.relationName][item.relationValueKey]"
+                            }
+                          },
+                          "ItemDisplay",
+                          _vm.$attrs,
+                          false
+                        )
+                      )
+                    : _c(
+                        "ItemDisplay",
+                        _vm._b(
+                          {
+                            attrs: {
+                              "form-item": _vm.item,
+                              "form-data": _vm.formData
+                            },
+                            model: {
+                              value: _vm.formData[_vm.item.prop],
+                              callback: function($$v) {
+                                _vm.$set(_vm.formData, _vm.item.prop, $$v)
+                              },
+                              expression: "formData[item.prop]"
+                            }
+                          },
+                          "ItemDisplay",
+                          _vm.$attrs,
+                          false
+                        )
+                      ),
+                  _vm._v(" "),
+                  _vm.item.help
+                    ? _c("div", {
+                        staticClass: "form-item-help",
+                        domProps: { innerHTML: _vm._s(_vm.item.help) }
+                      })
+                    : _vm._e()
+                ],
+                1
+              )
             ],
             1
-          )
+          ),
+          _vm._v(" "),
+          _vm.item.footerComponent
+            ? _c(_vm.item.footerComponent.componentName, {
+                tag: "component",
+                attrs: { attrs: _vm.item.footerComponent }
+              })
+            : _vm._e()
         ],
         1
-      ),
-      _vm._v(" "),
-      _vm.item.footerComponent
-        ? _c(_vm.item.footerComponent.componentName, {
-            tag: "component",
-            attrs: { attrs: _vm.item.footerComponent }
-          })
-        : _vm._e()
+      )
     ],
     1
   )
