@@ -72,7 +72,7 @@ export default {
   },
   computed: {
     depend() {
-      return _.pick(this.form_data, this.attrs.depend);
+      return _.pick(this.formData, this.attrs.depend);
     }
   },
   mounted() {
@@ -120,14 +120,14 @@ export default {
     },
     setLable() {
       const label = this.attrs.label;
-      if (label && this.form_data[label.key]) {
+      if (label && this.formData[label.key]) {
         const options = label.value || {value: "value", label: "label"};
         this.options = [
           _.transform(
               options,
               (result, value, key) => {
                 const tempValue = _.values(
-                    _.pick(this.form_data[label.key], value)
+                    _.pick(this.formData[label.key], value)
                 ).join("-");
                 // 数字校验
                 result[key] =

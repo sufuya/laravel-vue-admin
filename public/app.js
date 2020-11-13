@@ -6016,7 +6016,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   },
   computed: {
     depend: function depend() {
-      return _.pick(this.form_data, this.attrs.depend);
+      return _.pick(this.formData, this.attrs.depend);
     }
   },
   mounted: function mounted() {
@@ -6077,13 +6077,13 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
       var label = this.attrs.label;
 
-      if (label && this.form_data[label.key]) {
+      if (label && this.formData[label.key]) {
         var options = label.value || {
           value: "value",
           label: "label"
         };
         this.options = [_.transform(options, function (result, value, key) {
-          var tempValue = _.values(_.pick(_this2.form_data[label.key], value)).join("-"); // 数字校验
+          var tempValue = _.values(_.pick(_this2.formData[label.key], value)).join("-"); // 数字校验
 
 
           result[key] = parseFloat(tempValue).toString() == "NaN" ? tempValue : parseFloat(tempValue);
