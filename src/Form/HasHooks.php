@@ -235,7 +235,7 @@ trait HasHooks
      */
     public function setResourced(Closure $callback)
     {
-        return $this->registerHook('submitted', $callback);
+        return $this->registerHook('setResourced', $callback);
     }
 
     protected function callSetResourced()
