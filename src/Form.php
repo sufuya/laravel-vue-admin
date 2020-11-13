@@ -551,6 +551,8 @@ class Form extends Component
 
         $this->setResourceId($id);
 
+        $this->callSetResourced();
+
         return $this;
     }
 

@@ -228,4 +228,19 @@ trait HasHooks
         return $this->callHooks('validating', $validator);
     }
 
+    /**
+     * 设置完资源时调用
+     * @param Closure $callback
+     * @return HasHooks
+     */
+    public function setResourced(Closure $callback)
+    {
+        return $this->registerHook('submitted', $callback);
+    }
+
+    protected function callSetResourced()
+    {
+        return $this->callHooks('setResourced');
+    }
+
 }
