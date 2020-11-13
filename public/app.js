@@ -2756,19 +2756,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    form_item: Object,
-    form_items: Array,
-    form_data: Object
+    formItem: Object,
+    formItems: Array,
+    formData: Object
   },
   mounted: function mounted() {},
   computed: {
     ifVif: function ifVif() {
-      var key = this.form_item.vif.key;
-      var value = this.form_item.vif.value;
-      var anyValue = this.form_item.vif.anyValue;
+      var key = this.formItem.vif.key;
+      var value = this.formItem.vif.value;
+      var anyValue = this.formItem.vif.anyValue;
 
       if (key) {
-        var cValue = window._.get(this.form_data, key);
+        var cValue = window._.get(this.formData, key);
 
         if (cValue == value || cValue && anyValue) {
           return true;
@@ -2783,14 +2783,14 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       try {
-        if (!this.form_item.vifEval) {
+        if (!this.formItem.vifEval) {
           return true;
         }
 
-        var expression = this.form_item.vifEval.expression;
-        var props = this.form_item.vifEval.props;
+        var expression = this.formItem.vifEval.expression;
+        var props = this.formItem.vifEval.props;
         props.map(function (prop) {
-          window._.get(_this.form_data, prop);
+          window._.get(_this.formData, prop);
         });
 
         if (expression) {
@@ -42540,6 +42540,22 @@ axios__WEBPACK_IMPORTED_MODULE_0___default.a.interceptors.response.use(function 
         message: response.data.message
       });
       _router__WEBPACK_IMPORTED_MODULE_1__["default"].replace('/404');
+      break;
+
+    case 401:
+      element_ui__WEBPACK_IMPORTED_MODULE_2__["Notification"].error({
+        title: "登录信息已过期",
+        message: response.data.message
+      });
+      location.reload();
+      break;
+
+    case 419:
+      element_ui__WEBPACK_IMPORTED_MODULE_2__["Notification"].error({
+        title: "页面已过期",
+        message: response.data.message
+      });
+      location.reload();
       break;
 
     default:

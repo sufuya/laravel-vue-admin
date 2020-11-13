@@ -1,6 +1,6 @@
 import axios from "axios";
 import router from "../router";
-import { Notification, Message } from 'element-ui';
+import {Notification, Message} from 'element-ui';
 
 
 axios.interceptors.request.use(
@@ -13,7 +13,7 @@ axios.interceptors.request.use(
     }
 );
 axios.interceptors.response.use(
-    ({ data }) => {
+    ({data}) => {
         // 对响应数据做点什么
         switch (data.code) {
             case 400:
@@ -24,9 +24,9 @@ axios.interceptors.response.use(
             case 301:
                 try {
                     data.message &&
-                        Message[data.data.type]({
-                            message: data.message
-                        });
+                    Message[data.data.type]({
+                        message: data.message
+                    });
 
                     if (data.data.isVueRoute) {
                         router.replace(data.data.url);
@@ -39,14 +39,14 @@ axios.interceptors.response.use(
                 break;
             case 200:
                 data.message &&
-                    Message.success({
-                        message: data.message
-                    });
+                Message.success({
+                    message: data.message
+                });
                 break;
         }
         return data;
     },
-    ({ response }) => {
+    ({response}) => {
         //console.log(response.status);
         // 对响应错误做点什么
         switch (response.status) {
@@ -56,6 +56,20 @@ axios.interceptors.response.use(
                     message: response.data.message
                 });
                 router.replace('/404')
+                break;
+            case 401:
+                Notification.error({
+                    title: "登录信息已过期",
+                    message: response.data.message
+                });
+                location.reload();
+                break;
+            case 419:
+                Notification.error({
+                    title: "页面已过期",
+                    message: response.data.message
+                });
+                location.reload();
                 break;
             default:
                 Notification.error({
