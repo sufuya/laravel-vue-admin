@@ -1,28 +1,30 @@
 <template>
   <el-popconfirm
-    v-if="action.confirm"
-    placement="top"
-    :title="action.confirm"
-    @onConfirm="onHandle"
+      v-if="action.confirm"
+      placement="top"
+      :title="action.confirm"
+      @onConfirm="onHandle"
   >
     <el-button
-      slot="reference"
-      type="text"
-      size="mini"
-      :icon="action.icon"
-      :loading="loading"
-      class="action-button"
-    >{{action.name}}</el-button>
+        slot="reference"
+        type="text"
+        size="mini"
+        :icon="action.icon"
+        :loading="loading"
+        class="action-button"
+    >{{action.name}}
+    </el-button>
   </el-popconfirm>
   <el-button
-    v-else
-    @click="onHandle"
-    type="text"
-    size="mini"
-    :loading="loading"
-    :icon="action.icon"
-    class="action-button"
-  >{{action.name}}</el-button>
+      v-else
+      @click="onHandle"
+      type="text"
+      size="mini"
+      :loading="loading"
+      :icon="action.icon"
+      class="action-button"
+  >{{action.name}}
+  </el-button>
 </template>
 <script>
 export default {
@@ -49,13 +51,13 @@ export default {
     onHandleUrl() {
       this.loading = true;
       this.$http[this.action.httpMethod](this.handleUrl)
-        .then(({ code }) => {
-          if (code === 200 && this.action.emit)
-            this.$bus.emit(this.action.emit);
-        })
-        .finally(() => {
-          this.loading = false;
-        });
+          .then((res) => {
+            if (res.code === 200 && this.action.emit)
+              this.$bus.emit(this.action.emit, res.data);
+          })
+          .finally(() => {
+            this.loading = false;
+          });
     },
     replaceUrl(url) {
       url = this._.replace(url, "{{route.path}}", this.$route.path);

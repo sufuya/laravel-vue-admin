@@ -299,6 +299,12 @@ export default {
     this.$bus.on("tableSetLoading", (status) => {
       this.loading = status;
     });
+    this.$bus.on('routeSetUrl', (data) => {
+      console.log(data)
+      if (data.url) {
+        this.$router.push({path: data.url})
+      }
+    });
 
     this.$bus.on("showDialogGridFrom", ({isShow, key}) => {
       this.$refs["DialogGridFrom"].dialogVisible = isShow;
@@ -321,6 +327,7 @@ export default {
       this.$bus.off("tableReload");
       this.$bus.off("tableSetLoading");
       this.$bus.off("showDialogGridFrom");
+      this.$bus.off("routeSetUrl");
     } catch (e) {
     }
   },

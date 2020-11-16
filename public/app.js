@@ -2843,6 +2843,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     key_name: String,
@@ -2868,9 +2870,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.loading = true;
-      this.$http[this.action.httpMethod](this.handleUrl).then(function (_ref) {
-        var code = _ref.code;
-        if (code === 200 && _this.action.emit) _this.$bus.emit(_this.action.emit);
+      this.$http[this.action.httpMethod](this.handleUrl).then(function (res) {
+        if (res.code === 200 && _this.action.emit) _this.$bus.emit(_this.action.emit, res.data);
       })["finally"](function () {
         _this.loading = false;
       });
@@ -3567,6 +3568,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.$bus.on("tableSetLoading", function (status) {
       _this.loading = status;
     });
+    this.$bus.on('routeSetUrl', function (data) {
+      console.log(data);
+
+      if (data.url) {
+        _this.$router.push({
+          path: data.url
+        });
+      }
+    });
     this.$bus.on("showDialogGridFrom", function (_ref) {
       var isShow = _ref.isShow,
           key = _ref.key;
@@ -3586,6 +3596,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.$bus.off("tableReload");
       this.$bus.off("tableSetLoading");
       this.$bus.off("showDialogGridFrom");
+      this.$bus.off("routeSetUrl");
     } catch (e) {}
   },
   methods: {
@@ -32628,7 +32639,7 @@ var render = function() {
               },
               slot: "reference"
             },
-            [_vm._v(_vm._s(_vm.action.name))]
+            [_vm._v(_vm._s(_vm.action.name) + "\n  ")]
           )
         ],
         1
@@ -32645,7 +32656,7 @@ var render = function() {
           },
           on: { click: _vm.onHandle }
         },
-        [_vm._v(_vm._s(_vm.action.name))]
+        [_vm._v(_vm._s(_vm.action.name) + "\n")]
       )
 }
 var staticRenderFns = []
