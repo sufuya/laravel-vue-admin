@@ -2516,7 +2516,7 @@ __webpack_require__.r(__webpack_exports__);
 
                   _this3.$bus.emit("tableReload");
                 } else {
-                  _this3.successRefData();
+                  _this3.successRefData(data);
                 }
               }
             })["finally"](function () {
@@ -2534,7 +2534,7 @@ __webpack_require__.r(__webpack_exports__);
 
                   _this3.$bus.emit("tableReload");
                 } else {
-                  _this3.successRefData();
+                  _this3.successRefData(data);
                 }
               }
             })["finally"](function () {
@@ -2546,11 +2546,12 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    successRefData: function successRefData() {
+    successRefData: function successRefData(res) {
       if (this.attrs.formRefData.successRefData) {
         this.$bus.emit(this.attrs.formRefData.successRefData.ref, {
           data: this.attrs.formRefData.successRefData.data,
-          self: this
+          self: this,
+          res: res
         });
       } else {
         this.$router.go(-1);

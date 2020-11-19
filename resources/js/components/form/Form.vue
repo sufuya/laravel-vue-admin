@@ -200,7 +200,7 @@ export default {
                                         this.closeDialog();
                                         this.$bus.emit("tableReload");
                                     } else {
-                                        this.successRefData();
+                                        this.successRefData(data);
                                     }
                                 }
                             })
@@ -216,7 +216,7 @@ export default {
                                         this.closeDialog();
                                         this.$bus.emit("tableReload");
                                     } else {
-                                        this.successRefData();
+                                        this.successRefData(data);
                                     }
                                 }
                             })
@@ -229,11 +229,12 @@ export default {
                 }
             });
         },
-        successRefData() {
+        successRefData(res) {
             if (this.attrs.formRefData.successRefData) {
                 this.$bus.emit(this.attrs.formRefData.successRefData.ref, {
                     data: this.attrs.formRefData.successRefData.data,
                     self: this,
+                    res:res
                 });
             } else {
                 this.$router.go(-1);
