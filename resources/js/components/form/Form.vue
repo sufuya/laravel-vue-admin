@@ -195,12 +195,13 @@ export default {
                         this.$http
                             .put(this.attrs.action, formatData)
                             .then(({data, code, message}) => {
+                              this.submitFormResult = data
                                 if (code === 200) {
                                     if (this.attrs.attrs.isDialog) {
                                         this.closeDialog();
                                         this.$bus.emit("tableReload");
                                     } else {
-                                        this.successRefData(data);
+                                        this.successRefData();
                                     }
                                 }
                             })
@@ -211,12 +212,13 @@ export default {
                         this.$http
                             .post(this.attrs.action, formatData)
                             .then(({data, code, message}) => {
+                              this.submitFormResult = data
                                 if (code === 200) {
                                     if (this.attrs.attrs.isDialog) {
                                         this.closeDialog();
                                         this.$bus.emit("tableReload");
                                     } else {
-                                        this.successRefData(data);
+                                        this.successRefData();
                                     }
                                 }
                             })
@@ -229,13 +231,11 @@ export default {
                 }
             });
         },
-        successRefData(res) {
-          console.log(res)
+        successRefData() {
             if (this.attrs.formRefData.successRefData) {
                 this.$bus.emit(this.attrs.formRefData.successRefData.ref, {
                     data: this.attrs.formRefData.successRefData.data,
                     self: this,
-                    res:res
                 });
             } else {
                 this.$router.go(-1);
