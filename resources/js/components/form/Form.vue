@@ -230,6 +230,7 @@ export default {
             });
         },
         successRefData(res) {
+          console.log(res)
             if (this.attrs.formRefData.successRefData) {
                 this.$bus.emit(this.attrs.formRefData.successRefData.ref, {
                     data: this.attrs.formRefData.successRefData.data,
