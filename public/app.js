@@ -2509,6 +2509,7 @@ __webpack_require__.r(__webpack_exports__);
               var data = _ref2.data,
                   code = _ref2.code,
                   message = _ref2.message;
+              _this3.submitFormResult = data;
 
               if (code === 200) {
                 if (_this3.attrs.attrs.isDialog) {
@@ -2516,7 +2517,7 @@ __webpack_require__.r(__webpack_exports__);
 
                   _this3.$bus.emit("tableReload");
                 } else {
-                  _this3.successRefData(data);
+                  _this3.successRefData();
                 }
               }
             })["finally"](function () {
@@ -2527,6 +2528,7 @@ __webpack_require__.r(__webpack_exports__);
               var data = _ref3.data,
                   code = _ref3.code,
                   message = _ref3.message;
+              _this3.submitFormResult = data;
 
               if (code === 200) {
                 if (_this3.attrs.attrs.isDialog) {
@@ -2534,7 +2536,7 @@ __webpack_require__.r(__webpack_exports__);
 
                   _this3.$bus.emit("tableReload");
                 } else {
-                  _this3.successRefData(data);
+                  _this3.successRefData();
                 }
               }
             })["finally"](function () {
@@ -2546,14 +2548,11 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    successRefData: function successRefData(res) {
-      console.log(res);
-
+    successRefData: function successRefData() {
       if (this.attrs.formRefData.successRefData) {
         this.$bus.emit(this.attrs.formRefData.successRefData.ref, {
           data: this.attrs.formRefData.successRefData.data,
-          self: this,
-          res: res
+          self: this
         });
       } else {
         this.$router.go(-1);
