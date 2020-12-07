@@ -82,7 +82,7 @@ export default {
         if (this._.isObject(t_value[index])) {
           t_value[index][this.attrs.remove_flag_name] = 1;
         } else {
-          t_value.slice(index, 1)
+          t_value.splice(index, 1)
         }
         this.onChange(t_value);
       } else {
