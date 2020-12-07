@@ -6395,6 +6395,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -6414,7 +6415,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this._.isArray(this.value)) {
         var t_value = this._.clone(this.value);
 
-        t_value[index][this.attrs.remove_flag_name] = 1;
+        if (this._.isObject(t_value[index])) {
+          t_value[index][this.attrs.remove_flag_name] = 1;
+        } else {
+          t_value.slice(index, 1);
+        }
+
         this.onChange(t_value);
       } else {
         this.onChange(null);
@@ -36150,7 +36156,7 @@ var render = function() {
                     },
                     attrs: { plain: "" }
                   },
-                  [_vm._v("上传")]
+                  [_vm._v("上传\n      ")]
                 )
               ],
               1
